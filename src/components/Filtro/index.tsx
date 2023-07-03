@@ -7,14 +7,31 @@ import { filtroEventos } from "../../state/atom";
 const Filtro: React.FC = () => {
   const [data, setData] = useState("");
   const setFiltroEvento = useSetRecoilState<IFiltroEventos>(filtroEventos);
+  const [status, setStatus] = useState("");
 
   const submeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
     evento.preventDefault();
-    const filtro: IFiltroEventos = {}
+    const filtro: IFiltroEventos = {};
     if (data) {
       filtro.data = new Date(data);
     } else {
       filtro.data = null;
+    }
+    if (status) {
+      switch (status) {
+        case "completas": {
+          filtro.status = true;
+          break;
+        }
+        case "incompletas": {
+          filtro.status = false;
+          break;
+        }
+        default: {
+          filtro.status = null;
+          break;
+        }
+      }
     }
     setFiltroEvento(filtro);
   };
@@ -30,7 +47,17 @@ const Filtro: React.FC = () => {
         placeholder="Por data"
         value={data}
       />
-
+      <select
+        name="status"
+        onChange={(evento) => {
+          setStatus(evento.target.value);
+        }}
+        value={status}
+      >
+        <option value="todas">Todas</option>
+        <option value="completas">Completas</option>
+        <option value="incompletas">Incompletas</option>
+      </select>
       <button className={style.botao}>Filtrar</button>
     </form>
   );

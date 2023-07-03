@@ -1,3 +1,4 @@
 export interface IFiltroEventos {
-    data?: Date | null
+    data?: Date | null,
+    status?: boolean | null
 }

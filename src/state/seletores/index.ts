@@ -6,14 +6,25 @@ export const eventosFiltradosState = selector({
   get: ({ get }) => {
     const filtro = get(filtroEventos);
     const todosEventos = get(listaDeEventosState);
-    const eventos = todosEventos.filter((evento) => {
+
+    const eventosFiltradosPorData = todosEventos.filter((evento) => {
       if (!filtro.data) {
         return true;
       }
-      return (
-        filtro.data.toISOString().startsWith(evento.inicio.toISOString().slice(0, 10))
-      );
+      return filtro.data
+        .toISOString()
+        .startsWith(evento.inicio.toISOString().slice(0, 10));
     });
-    return eventos;
+
+    const eventosFiltradosPorStatus = eventosFiltradosPorData.filter(
+      (evento) => {
+        if (filtro.status === null) {
+          return true;
+        }
+        return filtro.status === evento.completo;
+      }
+    );
+
+    return eventosFiltradosPorStatus;
   },
 });
