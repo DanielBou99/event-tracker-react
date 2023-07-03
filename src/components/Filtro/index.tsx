@@ -18,20 +18,7 @@ const Filtro: React.FC = () => {
       filtro.data = null;
     }
     if (status) {
-      switch (status) {
-        case "completas": {
-          filtro.status = true;
-          break;
-        }
-        case "incompletas": {
-          filtro.status = false;
-          break;
-        }
-        default: {
-          filtro.status = null;
-          break;
-        }
-      }
+      filtro.status = status;
     }
     setFiltroEvento(filtro);
   };
